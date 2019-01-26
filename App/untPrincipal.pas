@@ -1,0 +1,122 @@
+unit untPrincipal;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
+  MultiDetailAppearanceU, Data.DB, MemDS, DBAccess, MyAccess, FMX.ListView,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects, FMX.DateTimeCtrls,
+  FMX.Edit, DateUtils;
+
+type
+  TForm2 = class(TForm)
+    MyConnection1: TMyConnection;
+    lstFinanceiro: TListView;
+    qryFinanceiro: TMyQuery;
+    pnlPrincipal: TPanel;
+    lblMes: TLabel;
+    imgAnterior: TImage;
+    imgProximo: TImage;
+    Edit1: TEdit;
+    Panel1: TPanel;
+    lblTotal: TLabel;
+    procedure FormShow(Sender: TObject);
+    procedure imgProximoClick(Sender: TObject);
+    procedure imgAnteriorClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure CarregaFinanceiro(dtInicio, dtFim : String);
+    function FormataData(str : String) : String;
+  end;
+
+var
+  Form2: TForm2;
+
+implementation
+
+{$R *.fmx}
+
+procedure TForm2.CarregaFinanceiro(dtInicio, dtFim: String);
+var
+  vItemAdd : TListViewItem;
+  vTotal : real;
+begin
+  vTotal := 0;
+  lstFinanceiro.Items.Clear;
+  lstFinanceiro.BeginUpdate;
+  qryFinanceiro.Close;
+  qryFinanceiro.SQL.Clear;
+  qryFinanceiro.SQL.Add('select F.id, F.id_cliente, C.NOME, F.data_vencimento, F.numero, F.parcelas, sum(F.valor) as valor ' +
+                        'from FINANCEIRO F JOIN CLIENTE C ON (C.ID = F.ID_CLIENTE) ' +
+                        'where F.data_vencimento between ' + QuotedStr(dtInicio) + ' and ' + QuotedStr(dtFim) + ' group by F.id_cliente order by C.nome');
+
+  qryFinanceiro.Open;
+  qryFinanceiro.First;
+  while not qryFinanceiro.Eof do
+  begin
+    vItemAdd := lstFinanceiro.items.Add;
+
+    vItemAdd.Detail := qryFinanceiro.FieldByName('id_cliente').AsString;
+    vItemAdd.Text := qryFinanceiro.FieldByName('nome').AsString;
+    vItemAdd.Data[TMultiDetailAppearanceNames.Detail1] := 'Valor: ' + qryFinanceiro.FieldByName('valor').AsString;
+
+    vTotal := vTotal + qryFinanceiro.FieldByName('valor').AsFloat;
+    qryFinanceiro.Next;
+  end;
+
+  lblTotal.Text := 'Total: ' + FloatToStr(vTotal);
+end;
+
+function TForm2.FormataData(str: String): String;
+var
+  vData : String;
+begin
+  vData := str[7] + str[8] + str[9] + str[10] + '-' + str[4] + str[5] + '-' + str[1] + str[2];
+  Result := vData;
+end;
+
+procedure TForm2.FormShow(Sender: TObject);
+var
+  vDtInicio, vDtFim : String;
+begin
+  Edit1.Text := DateToStr(Date);
+  lblMes.Text := '';
+  lblMes.Text := uppercase(formatdatetime('MMMM',(StrToDate(Edit1.Text))));
+
+  vDtInicio := FormataData(DateToStr(StartOfTheMonth(StrToDate(Edit1.Text))));
+  vDtFim := FormataData(DateToStr(EndOfTheMonth(StrToDate(Edit1.Text))));
+
+  CarregaFinanceiro(vDtInicio, vDtFim);
+end;
+
+procedure TForm2.imgAnteriorClick(Sender: TObject);
+var
+  vDtInicio, vDtFim : String;
+begin
+  Edit1.Text := DateToStr(IncMonth(StrToDate(Edit1.Text), -1));
+  lblMes.Text := uppercase(formatdatetime('MMMM',StrToDate(Edit1.Text)));
+
+  vDtInicio := FormataData(DateToStr(StartOfTheMonth(StrToDate(Edit1.Text))));
+  vDtFim := FormataData(DateToStr(EndOfTheMonth(StrToDate(Edit1.Text))));
+
+  CarregaFinanceiro(vDtInicio, vDtFim);
+end;
+
+procedure TForm2.imgProximoClick(Sender: TObject);
+var
+  vDtInicio, vDtFim : String;
+begin
+  Edit1.Text := DateToStr(IncMonth(StrToDate(Edit1.Text)));
+  lblMes.Text := uppercase(formatdatetime('MMMM',StrToDate(Edit1.Text)));
+
+  vDtInicio := FormataData(DateToStr(StartOfTheMonth(StrToDate(Edit1.Text))));
+  vDtFim := FormataData(DateToStr(EndOfTheMonth(StrToDate(Edit1.Text))));
+
+  CarregaFinanceiro(vDtInicio, vDtFim);
+end;
+
+end.
