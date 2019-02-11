@@ -2,9 +2,9 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2018/10/06 11:31:17.000.156,=C:\Users\Ronaldo\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
-    <Transaction>2018/10/06 11:36:54.000.393,C:\DelphiBerlin\ControleCartaoCredito\App\untPrincipal.fmx=C:\Users\Ronaldo\Documents\Embarcadero\Studio\Projects\Unit2.fmx</Transaction>
-    <Transaction>2018/10/06 11:36:54.000.393,C:\DelphiBerlin\ControleCartaoCredito\App\untPrincipal.pas=C:\Users\Ronaldo\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
-    <Transaction>2018/10/06 11:37:06.000.606,C:\DelphiBerlin\ControleCartaoCredito\App\APPSysCredit.dproj=C:\Users\Ronaldo\Documents\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
+    <Transaction>2018/10/06 11:36:54.000.393,C:\Users\Ronaldo\Documents\Embarcadero\Studio\Projects\Unit2.fmx=C:\DelphiBerlin\ControleCartaoCredito\App\untPrincipal.fmx</Transaction>
+    <Transaction>2018/10/06 11:36:54.000.393,C:\Users\Ronaldo\Documents\Embarcadero\Studio\Projects\Unit2.pas=C:\DelphiBerlin\ControleCartaoCredito\App\untPrincipal.pas</Transaction>
+    <Transaction>2018/10/06 11:37:06.000.606,C:\Users\Ronaldo\Documents\Embarcadero\Studio\Projects\Project2.dproj=C:\DelphiBerlin\ControleCartaoCredito\App\APPSysCredit.dproj</Transaction>
   </Transactions>
 	<ActiveMobileDevice>
 		<NoProfile iOSSimulator="iPhone5" Android="0024365975"/>

@@ -531,7 +531,6 @@ object Form2: TForm2
     Database = 'ronaldoexpert_inseminasys'
     Username = 'inseminasys'
     Server = '198.50.206.129'
-    Connected = True
     LoginPrompt = False
     Left = 200
     Top = 384

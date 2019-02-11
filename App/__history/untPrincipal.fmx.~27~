@@ -17,7 +17,7 @@ object Form2: TForm2
     FooterAppearanceClassName = 'TListHeaderObjects'
     Align = Client
     Size.Width = 321.000000000000000000
-    Size.Height = 454.000000000000000000
+    Size.Height = 399.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
     ItemAppearance.FooterHeight = 30
@@ -34,12 +34,12 @@ object Form2: TForm2
     ItemAppearanceObjects.FooterObjects.Text.Height = 8.000000000000000000
     ItemAppearanceObjects.FooterObjects.Text.PlaceOffset.Y = 16.000000000000000000
     CanSwipeDelete = False
-    object edtData: TDateEdit
-      Date = 43379.000000000000000000
-      TodayDefault = True
-      Position.X = 128.000000000000000000
-      Position.Y = 72.000000000000000000
+    object Edit1: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
       TabOrder = 0
+      Position.X = 104.000000000000000000
+      Position.Y = 40.000000000000000000
+      Visible = False
     end
   end
   object pnlPrincipal: TPanel
@@ -281,6 +281,7 @@ object Form2: TForm2
       Size.Width = 50.000000000000000000
       Size.Height = 63.000000000000000000
       Size.PlatformDefault = False
+      OnClick = imgAnteriorClick
     end
     object imgProximo: TImage
       MultiResBitmap.Height = 512
@@ -505,6 +506,25 @@ object Form2: TForm2
       Size.Height = 63.000000000000000000
       Size.PlatformDefault = False
       OnClick = imgProximoClick
+    end
+  end
+  object Panel1: TPanel
+    Align = Bottom
+    Position.Y = 472.000000000000000000
+    Size.Width = 321.000000000000000000
+    Size.Height = 55.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 7
+    object lblTotal: TLabel
+      Align = Client
+      StyledSettings = [Family, FontColor]
+      Margins.Left = 10.000000000000000000
+      Size.Width = 311.000000000000000000
+      Size.Height = 55.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 15.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      Text = 'lblTotal'
     end
   end
   object MyConnection1: TMyConnection
