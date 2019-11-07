@@ -15,6 +15,9 @@ object frmBaixaConsulta: TfrmBaixaConsulta
   Position = poScreenCenter
   OnKeyPress = FormKeyPress
   OnShow = FormShow
+  DesignSize = (
+    725
+    418)
   PixelsPerInch = 96
   TextHeight = 13
   object pnlRodape: TPanel
@@ -31,26 +34,32 @@ object frmBaixaConsulta: TfrmBaixaConsulta
       Height = 71
       Align = alBottom
       TabOrder = 0
+      DesignSize = (
+        723
+        71)
       object lblDtPagamento: TLabel
-        Left = 379
+        Left = 414
         Top = 8
         Width = 80
         Height = 13
+        Anchors = [akRight, akBottom]
         Caption = 'Data Pagamento'
       end
       object lblVlrPago: TLabel
-        Left = 467
+        Left = 502
         Top = 8
         Width = 51
         Height = 13
+        Anchors = [akRight, akBottom]
         Caption = 'Valor Pago'
       end
       object BitBtn3: TBitBtn
-        Left = 554
+        Left = 589
         Top = 11
         Width = 112
         Height = 42
         Cursor = crHandPoint
+        Anchors = [akRight, akBottom]
         Caption = '&Confirma Baixa'
         Glyph.Data = {
           76050000424D7605000000000000360000002800000015000000150000000100
@@ -101,20 +110,22 @@ object frmBaixaConsulta: TfrmBaixaConsulta
         OnClick = BitBtn3Click
       end
       object edtDataPagamento: TDateTimePicker
-        Left = 379
+        Left = 414
         Top = 24
         Width = 82
         Height = 21
+        Anchors = [akRight, akBottom]
         Date = 42934.572132650460000000
         Time = 42934.572132650460000000
         TabOrder = 1
       end
       object edtValorPago: TEdit
-        Left = 467
+        Left = 502
         Top = 24
         Width = 81
         Height = 21
         Alignment = taRightJustify
+        Anchors = [akRight, akBottom]
         TabOrder = 2
         Text = '0,00'
         OnEnter = edtValorPagoEnter
@@ -399,9 +410,9 @@ object frmBaixaConsulta: TfrmBaixaConsulta
     Top = 287
     Width = 202
     Height = 53
-    Cursor = crSizeAll
+    Cursor = crArrow
+    Anchors = [akRight, akBottom]
     TabOrder = 3
-    OnMouseMove = pnlTotalMouseMove
     object edtTotalGeral: TEdit
       Left = 60
       Top = 6

@@ -10,9 +10,11 @@ object frmPesquisa: TfrmPesquisa
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
   OnKeyDown = FormKeyDown
+  OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -37,7 +39,6 @@ object frmPesquisa: TfrmPesquisa
     TitleFont.Style = []
     OnDrawDataCell = dbgPesquisaDrawDataCell
     OnDblClick = dbgPesquisaDblClick
-    OnKeyDown = dbgPesquisaKeyDown
     OnTitleClick = dbgPesquisaTitleClick
   end
   object pnlRodape: TPanel

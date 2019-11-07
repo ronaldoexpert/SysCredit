@@ -12,7 +12,7 @@ uses
   FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids, IniFiles,Registry, Vcl.Buttons,
   Vcl.ComCtrls, Vcl.ToolWin, Vcl.ExtCtrls, System.ImageList, Vcl.ImgList,
   Vcl.StdCtrls, FireDAC.Phys.IBWrapper, FireDAC.Phys.IBBase, DateUtils,
-  UCrpeClasses, UCrpe32;
+  UCrpeClasses, UCrpe32, SHELLAPI;
 
 type
   TfrmPrincipal = class(TForm)
@@ -41,6 +41,7 @@ type
     lblStatusCaixa: TLabel;
     btnPedido: TSpeedButton;
     btnProduto: TSpeedButton;
+    btnSinc: TBitBtn;
     procedure FormActivate(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure btnFormaPagtoClick(Sender: TObject);
@@ -53,6 +54,7 @@ type
     procedure btnImprimirClick(Sender: TObject);
     procedure btnPedidoClick(Sender: TObject);
     procedure btnProdutoClick(Sender: TObject);
+    procedure btnSincClick(Sender: TObject);
   private
     { Private declarations }
     procedure CarregaConfig;
@@ -124,6 +126,11 @@ begin
   close;
 end;
 
+procedure TfrmPrincipal.btnSincClick(Sender: TObject);
+begin
+  ShellExecute(Handle, 'open', pchar('SyncCredit.exe'), nil, nil, SW_SHOWNORMAL);
+end;
+
 procedure TfrmPrincipal.CarregaConfig;
 var
   vModuloFin, vModuloVendas : String;
@@ -138,6 +145,7 @@ begin
     btnPedido.Visible := True;
     btnProduto.Visible := True;
     grpRelatorioFinanceiro.Visible := False;
+    lblStatusCaixa.Visible := True;
   end
   else if (vModuloVendas = 'N') and (vModuloFin = 'S') then
   begin
@@ -146,6 +154,7 @@ begin
     btnPedido.Visible := False;
     btnProduto.Visible := False;
     grpRelatorioFinanceiro.Visible := True;
+    lblStatusCaixa.Visible := False;
   end
   else if (vModuloVendas = 'S') and (vModuloFin = 'S') then
   begin
@@ -154,9 +163,9 @@ begin
     btnPedido.Visible := True;
     btnProduto.Visible := True;
     grpRelatorioFinanceiro.Visible := True;
+    lblStatusCaixa.Visible := True;
   end;
 
-  lblStatusCaixa.Visible := True;
   if DM_CREDIT.qryConfig.FieldByName('CAIXAABERTO').AsString = 'S' THEN
     lblStatusCaixa.Caption := 'CAIXA ABERTO'
   else

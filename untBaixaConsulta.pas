@@ -49,8 +49,6 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure BitBtn1Click(Sender: TObject);
     procedure BitBtn2Click(Sender: TObject);
-    procedure pnlTotalMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
     procedure FormShow(Sender: TObject);
     procedure edtValorPagoEnter(Sender: TObject);
     procedure edtValorPagoExit(Sender: TObject);
@@ -204,6 +202,10 @@ begin
   ' F.DATA_PAGAMENTO, F.VALOR_PAGO from FINANCEIRO F JOIN CLIENTE C ON (F.ID_CLIENTE = C.ID) JOIN FORMA_PAGTO FP ON (F.FORMA_PAGTO = FP.ID) WHERE F.ID IS NULL', 'Abrir', DM_CREDIT.qryConsulta);
 
   DM_CREDIT.qryConsulta.EmptyDataSet;
+  edtDtInicio.Date := StartOfTheMonth(Date);
+  edtDtFim.Date := EndOfTheMonth(Date);
+  edtDataPagamento.Date := Date;
+  edtDtInicio.SetFocus;
 end;
 
 function TfrmBaixaConsulta.PesquisaCliente(vStatus: Boolean): boolean;
@@ -230,6 +232,7 @@ if vStatus = True then
     try
       frmPesquisa.vTabela := 'CLIENTE';
       frmPesquisa.vTela := 'BAIXA';
+      frmPesquisa.vComando := 'Select * from CLIENTE ORDER BY NOME';
       frmPesquisa.ShowModal
     finally
       frmPesquisa.Release;
@@ -261,18 +264,12 @@ begin
     try
       frmPesquisa.vTabela := 'FORMA_PAGTO';
       frmPesquisa.vTela := 'BAIXA';
+      frmPesquisa.vComando := 'Select * from FORMA_PAGTO ORDER BY DESCRICAO';
       frmPesquisa.ShowModal
     finally
       frmPesquisa.Release;
     end;
   end;
-end;
-
-procedure TfrmBaixaConsulta.pnlTotalMouseMove(Sender: TObject;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  ReleaseCapture;
-  PostMessage(TWinControl(Sender).Handle, WM_SYSCOMMAND, $F012,0);
 end;
 
 procedure TfrmBaixaConsulta.SomaTotal;
@@ -293,6 +290,7 @@ begin
     edtTotalGeral.Text := '0';
 
   edtTotalGeral.Text := FormatFloat('#0.00', StrToFloat(edtTotalGeral.Text));
+  edtValorPago.Text := edtTotalGeral.Text;
 end;
 
 end.

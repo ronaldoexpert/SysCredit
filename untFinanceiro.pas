@@ -56,8 +56,6 @@ type
     BitBtn1: TBitBtn;
     dtsFornecedor: TDataSource;
     qryFornecedor: TFDQuery;
-    ActivityIndicator1: TActivityIndicator;
-    BitBtn2: TBitBtn;
     edtEmissao: TMaskEdit;
     procedure FormShow(Sender: TObject);
     procedure edtClienteExit(Sender: TObject);
@@ -77,7 +75,12 @@ type
     procedure BitBtn1Click(Sender: TObject);
     procedure edtOrigemChange(Sender: TObject);
     procedure edtOrigemExit(Sender: TObject);
-    procedure BitBtn2Click(Sender: TObject);
+    procedure edtClienteKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtFormaPagtoKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure edtVencimentoExit(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
     fNovo : boolean;
@@ -109,14 +112,6 @@ uses untDMCredit, untFuncoes, untPesquisa;
 procedure TfrmFinanceiro.BitBtn1Click(Sender: TObject);
 begin
   PesquisaFinanceiro(False)
-end;
-
-procedure TfrmFinanceiro.BitBtn2Click(Sender: TObject);
-begin
-  if ActivityIndicator1.Animate = true then
-    ActivityIndicator1.Animate := False
-  else
-    ActivityIndicator1.Animate := true;
 end;
 
 procedure TfrmFinanceiro.btnFecharClick(Sender: TObject);
@@ -164,6 +159,7 @@ begin
       qryAuxiliar.FieldByName('PARCELAS').AsString := edtParcelas.Text;
       qryAuxiliar.FieldByName('ID_CLIENTE').AsString := edtCliente.Text;
       qryAuxiliar.FieldByName('FORMA_PAGTO').AsString := edtFormaPagto.Text;
+      qryAuxiliar.FieldByName('EXPORTADO').AsString := 'N';
 
       qryAuxiliar.Post;
       qryAuxiliar.Next;
@@ -185,7 +181,6 @@ VAR
 begin
   if ValidaCampos then
   begin
-    ActivityIndicator1.Animate := True;
     vDocOriem := edtNumero.Text;
     if rdgrpTipo.ItemIndex = 0 then
     begin
@@ -219,7 +214,7 @@ begin
       qryAuxiliar.First;
       while not qryAuxiliar.Eof do
       begin
-        frmFuncoes.Novo('FINANCEIRO', 'Gravar');
+        frmFuncoes.Novo('FINANCEIRO', 'Fim');
         qryAuxiliar.Next;
       end;
 
@@ -232,7 +227,6 @@ begin
     btnExcluir.Enabled := True;
     edtEmissao.Enabled := True;
     rdgrpTipo.Enabled := True;
-    ActivityIndicator1.Animate := False;
     ShowMessage('Gravação efetuada com sucesso');
   END;
 end;
@@ -243,8 +237,9 @@ begin
   LimpaCampos;
   lblSelecao.Caption := 'NOVO';
   edtParcelas.Text := '1';
+  rdgrpTipo.ItemIndex := 1;
 
-  qryFinanceiro.Append;
+  FormActivate(Self);
 
   edtId.Text := IntToStr(frmFuncoes.Novo('FINANCEIRO', 'Novo'));
   edtNumero.Text := frmFuncoes.FormataNumero(edtId.Text);
@@ -287,7 +282,7 @@ procedure TfrmFinanceiro.CarregaGridParcelas;
 begin
   qryAuxiliar.SQL.Clear;
   qryAuxiliar.Close;
-  qryAuxiliar.SQL.Add('Select ID, NUMERO, DATA_EMISSAO, DATA_VENCIMENTO, VALOR, ORIGEM, OBSERVACAO, PARCELAS, DOCORIGEM, ID_CLIENTE, FORMA_PAGTO, DATA_PAGAMENTO from FINANCEIRO Where id is null order by numero');
+  qryAuxiliar.SQL.Add('Select ID, NUMERO, DATA_EMISSAO, DATA_VENCIMENTO, VALOR, ORIGEM, OBSERVACAO, PARCELAS, DOCORIGEM, ID_CLIENTE, FORMA_PAGTO, DATA_PAGAMENTO, EXPORTADO from FINANCEIRO Where id is null order by numero');
   qryAuxiliar.Open;
 
   dbgFinanceiro.Columns.Items[7].Visible := False;
@@ -305,6 +300,13 @@ begin
   end;
 end;
 
+procedure TfrmFinanceiro.edtClienteKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key = VK_F2 then
+    PesquisaCliente(False);
+end;
+
 procedure TfrmFinanceiro.edtClienteKeyPress(Sender: TObject; var Key: Char);
 begin
   if not (key in ['0'..'9', #8, #13]) then
@@ -319,6 +321,13 @@ begin
   begin
     PesquisaFormaPagto(True);
   end;
+end;
+
+procedure TfrmFinanceiro.edtFormaPagtoKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key = VK_F2 then
+    PesquisaFormaPagto(False);
 end;
 
 procedure TfrmFinanceiro.edtFormaPagtoKeyPress(Sender: TObject; var Key: Char);
@@ -378,6 +387,43 @@ begin
   END;
 end;
 
+procedure TfrmFinanceiro.edtVencimentoExit(Sender: TObject);
+var
+  vEmissao, vVencimento : TDate;
+begin
+  vEmissao := StrToDate(edtEmissao.Text);
+  vVencimento := StrToDate(edtVencimento.Text);
+  if vEmissao > vVencimento then
+    ShowMessage('A emissão não pode ser maior que o vencimento!');
+end;
+
+procedure TfrmFinanceiro.FormActivate(Sender: TObject);
+begin
+  rdgrpTipo.ItemIndex := 1;
+  qryFinanceiro.SQL.Clear;
+  qryFinanceiro.Close;
+  qryFinanceiro.SQL.Add('Select * from FINANCEIRO where ID is null');
+  qryFinanceiro.OpenOrExecute;
+
+  CarregaCampos;
+  CarregaGridParcelas;
+  edtEmissao.Text := datetostr(Date);
+  LimpaCampos;
+  edtNumero.SetFocus;
+  edtEmissao.Enabled := True;
+
+  if rdgrpTipo.ItemIndex = 0 then
+  begin
+    Height := 366;
+    //Position := poScreenCenter;
+  end
+  else
+  begin
+    Height := 557;
+    //Position := poScreenCenter;
+  end;
+end;
+
 procedure TfrmFinanceiro.FormKeyPress(Sender: TObject; var Key: Char);
 begin
   If key = #13 then
@@ -389,7 +435,7 @@ end;
 
 procedure TfrmFinanceiro.FormShow(Sender: TObject);
 begin
-  qryFinanceiro.SQL.Clear;
+  {qryFinanceiro.SQL.Clear;
   qryFinanceiro.Close;
   qryFinanceiro.SQL.Add('Select * from FINANCEIRO where ID is null');
   qryFinanceiro.OpenOrExecute;
@@ -410,7 +456,7 @@ begin
   begin
     Height := 557;
     Position := poScreenCenter;
-  end;
+  end; }
 end;
 
 procedure TfrmFinanceiro.LimpaCampos;

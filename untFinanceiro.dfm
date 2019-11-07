@@ -13,6 +13,7 @@ object frmFinanceiro: TfrmFinanceiro
   KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
+  OnActivate = FormActivate
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   PixelsPerInch = 96
@@ -60,7 +61,7 @@ object frmFinanceiro: TfrmFinanceiro
         F9A2F9FAE5FDFDFFFFFFFFFFFFFFFFFFFFFFFFCCDDE7BED5E3BBD3E3BBD3E3D5
         E4EDFFFFFFFFFFFFFFFFFFF7FEFEF0FEFEFAFFFFFFFFFFFFFFFF}
       OnClick = btnNovoClick
-      ExplicitLeft = -1
+      ExplicitLeft = -5
       ExplicitTop = 3
     end
     object btnGravar: TSpeedButton
@@ -300,7 +301,7 @@ object frmFinanceiro: TfrmFinanceiro
       Top = 98
       Width = 75
       Height = 21
-      TabOrder = 9
+      TabOrder = 10
       Visible = False
     end
     object edtVencimento: TDBEdit
@@ -309,7 +310,8 @@ object frmFinanceiro: TfrmFinanceiro
       Width = 73
       Height = 21
       DataSource = dtsFinanceiro
-      TabOrder = 1
+      TabOrder = 2
+      OnExit = edtVencimentoExit
     end
     object edtCliente: TDBEdit
       Left = 279
@@ -317,8 +319,9 @@ object frmFinanceiro: TfrmFinanceiro
       Width = 49
       Height = 21
       DataSource = dtsFinanceiro
-      TabOrder = 2
+      TabOrder = 3
       OnExit = edtClienteExit
+      OnKeyDown = edtClienteKeyDown
       OnKeyPress = edtClienteKeyPress
     end
     object edtValor: TDBEdit
@@ -327,7 +330,7 @@ object frmFinanceiro: TfrmFinanceiro
       Width = 73
       Height = 21
       DataSource = dtsFinanceiro
-      TabOrder = 5
+      TabOrder = 6
     end
     object edtFormaPagto: TDBEdit
       Left = 16
@@ -335,8 +338,9 @@ object frmFinanceiro: TfrmFinanceiro
       Width = 49
       Height = 21
       DataSource = dtsFinanceiro
-      TabOrder = 3
+      TabOrder = 4
       OnExit = edtFormaPagtoExit
+      OnKeyDown = edtFormaPagtoKeyDown
       OnKeyPress = edtFormaPagtoKeyPress
     end
     object edtDescrFormPagto: TEdit
@@ -345,7 +349,7 @@ object frmFinanceiro: TfrmFinanceiro
       Width = 240
       Height = 21
       Enabled = False
-      TabOrder = 10
+      TabOrder = 11
     end
     object edtDescrCliente: TEdit
       Left = 368
@@ -353,7 +357,7 @@ object frmFinanceiro: TfrmFinanceiro
       Width = 185
       Height = 21
       Enabled = False
-      TabOrder = 11
+      TabOrder = 12
     end
     object edtOrigem: TDBEdit
       Left = 16
@@ -362,7 +366,7 @@ object frmFinanceiro: TfrmFinanceiro
       Height = 21
       CharCase = ecUpperCase
       DataSource = dtsFinanceiro
-      TabOrder = 4
+      TabOrder = 5
       OnChange = edtOrigemChange
       OnExit = edtOrigemExit
     end
@@ -372,7 +376,7 @@ object frmFinanceiro: TfrmFinanceiro
       Width = 170
       Height = 69
       DataSource = dtsFinanceiro
-      TabOrder = 6
+      TabOrder = 7
     end
     object edtNumero: TEdit
       Left = 16
@@ -393,7 +397,7 @@ object frmFinanceiro: TfrmFinanceiro
       Items.Strings = (
         'Individual'
         'Grupo')
-      TabOrder = 12
+      TabOrder = 13
       OnClick = rdgrpTipoClick
     end
     object btnGeraParcela: TBitBtn
@@ -402,7 +406,7 @@ object frmFinanceiro: TfrmFinanceiro
       Width = 86
       Height = 25
       Caption = 'Gerar Parcelas'
-      TabOrder = 8
+      TabOrder = 9
       OnClick = btnGeraParcelaClick
       OnEnter = btnGeraParcelaEnter
     end
@@ -411,7 +415,7 @@ object frmFinanceiro: TfrmFinanceiro
       Top = 242
       Width = 118
       Height = 21
-      TabOrder = 7
+      TabOrder = 8
     end
     object btnPesqCliente: TBitBtn
       Left = 334
@@ -445,7 +449,7 @@ object frmFinanceiro: TfrmFinanceiro
         FFFFFFFFFFFFFFFFFFFFFFFFD5B4A4F4EECDFFFAE8FFF6CDFFEEBBFFF4C7F8D1
         A5BB928AFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD5
         B4A4D5B4A4CAA58EE1BBA3DAB39B8B8B8BFFFFFFFFFFFFFFFFFF}
-      TabOrder = 13
+      TabOrder = 14
       OnClick = btnPesqClienteClick
     end
     object BitBtn1: TBitBtn
@@ -480,23 +484,8 @@ object frmFinanceiro: TfrmFinanceiro
         FFFFFFFFFFFFFFFFFFFFFFFFD5B4A4F4EECDFFFAE8FFF6CDFFEEBBFFF4C7F8D1
         A5BB928AFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD5
         B4A4D5B4A4CAA58EE1BBA3DAB39B8B8B8BFFFFFFFFFFFFFFFFFF}
-      TabOrder = 14
+      TabOrder = 15
       OnClick = BitBtn1Click
-    end
-    object ActivityIndicator1: TActivityIndicator
-      Left = 225
-      Top = 173
-      IndicatorSize = aisLarge
-      IndicatorType = aitSectorRing
-    end
-    object BitBtn2: TBitBtn
-      Left = 368
-      Top = 168
-      Width = 75
-      Height = 25
-      Caption = 'BitBtn2'
-      TabOrder = 16
-      OnClick = BitBtn2Click
     end
     object edtEmissao: TMaskEdit
       Left = 121
@@ -505,7 +494,7 @@ object frmFinanceiro: TfrmFinanceiro
       Height = 21
       EditMask = '!99/99/0000;1;_'
       MaxLength = 10
-      TabOrder = 17
+      TabOrder = 1
       Text = '  /  /    '
     end
   end

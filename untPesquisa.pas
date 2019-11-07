@@ -25,11 +25,10 @@ type
     procedure btnFecharClick(Sender: TObject);
     procedure edtPesquisaChange(Sender: TObject);
     procedure dbgPesquisaTitleClick(Column: TColumn);
-    procedure dbgPesquisaKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure dbgPesquisaDrawDataCell(Sender: TObject; const Rect: TRect;
       Field: TField; State: TGridDrawState);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
     procedure Selecionar;
@@ -81,23 +80,6 @@ begin
   END;
 end;
 
-procedure TfrmPesquisa.dbgPesquisaKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-  if key = 38 then
-  begin
-    // seta para cima, volta um registro
-    qryPesquisa.Prior;
-    key := 0;
-  end
-  else if key = 40 then
-  begin
-    // seta para baixo, avança um registro
-    qryPesquisa.Next;
-    key := 0;
-  end;
-end;
-
 procedure TfrmPesquisa.dbgPesquisaTitleClick(Column: TColumn);
 begin
   lblPesquisa.Caption := Column.Title.Caption;
@@ -130,6 +112,34 @@ begin
   If key = VK_ESCAPE then
   Begin
     Close;
+  end;
+  if key = 38 then
+  begin
+    // seta para cima, volta um registro
+    qryPesquisa.Prior;
+    key := 0;
+  end
+  else if key = 40 then
+  begin
+    // seta para baixo, avança um registro
+    qryPesquisa.Next;
+    key := 0;
+  end;
+end;
+
+procedure TfrmPesquisa.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if key = #13 then
+  begin
+    // pressionado enter
+    key := '0';
+    Selecionar;
+  end
+  else if key = #27 then
+  begin
+    // pressionado ESC
+    key := '0';
+    close;
   end;
 end;
 

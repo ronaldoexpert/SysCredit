@@ -34,6 +34,14 @@ type
     edtVlrUnit: TDBEdit;
     lblVlrUnit: TLabel;
     btnPesquisa: TBitBtn;
+    edtCPF: TDBEdit;
+    lblCPF: TLabel;
+    edtPDF: TEdit;
+    btnBuscaPDF: TBitBtn;
+    OpenDialog1: TOpenDialog;
+    qryAuxiliar: TFDQuery;
+    dtAuxiliar: TDataSource;
+    btnRecupPDF: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure btnNovoClick(Sender: TObject);
     procedure btnFecharClick(Sender: TObject);
@@ -42,6 +50,8 @@ type
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure btnPesquisaClick(Sender: TObject);
     procedure edtVlrUnitClick(Sender: TObject);
+    procedure btnBuscaPDFClick(Sender: TObject);
+    procedure btnRecupPDFClick(Sender: TObject);
   private
     { Private declarations }
     procedure CarregaCamposCliente;
@@ -66,6 +76,32 @@ begin
   PesquisaBD(False);
 end;
 
+procedure TfrmCadastro.btnBuscaPDFClick(Sender: TObject);
+begin
+  if OpenDialog1.Execute then
+  begin
+    edtPDF.Text := OpenDialog1.FileName;
+  end;
+end;
+
+procedure TfrmCadastro.btnRecupPDFClick(Sender: TObject);
+var
+   vCaminho : String;
+begin
+  if edtCodigo.Text <> '' then
+  begin
+    vCaminho := ExtractFilePath(Application.ExeName);
+    qryAuxiliar.Close;
+    qryAuxiliar.SQL.Clear;
+    qryAuxiliar.SQL.Add('Select PDF from CLIENTE Where ID = ' + edtCodigo.Text);
+    qryAuxiliar.Open;
+    TBlobField(qryAuxiliar.FieldByName('PDF')).SaveToFile(vCaminho + PathDelim + 'BoletoNu.pdf');
+    ShowMessage('PDF gravado com sucesso!');
+  end
+  else
+    edtCodigo.SetFocus;
+end;
+
 procedure TfrmCadastro.btnFecharClick(Sender: TObject);
 begin
   Close;
@@ -80,6 +116,15 @@ begin
     frmFuncoes.Novo(vTela, 'Fim');
 
     fNovo := False;
+
+
+    qryAuxiliar.Close;
+    qryAuxiliar.SQL.Clear;
+    qryAuxiliar.SQL.Add('Update CLIENTE SET PDF = :PDF Where ID = ' + edtCodigo.Text);
+    qryAuxiliar.ParamByName('pdf').LoadFromFile(edtPDF.Text, ftBlob);
+    qryAuxiliar.Execute;
+
+    
 
     btnNovo.Enabled := True;
     btnGravar.Enabled := True;
@@ -134,6 +179,8 @@ begin
   BEGIN
     edtNome.DataField := 'NOME';
     edtTel.DataField := 'TELEFONE';
+    edtCPF.DataField := 'CPF';
+    qryCadastro.FieldByName('cpf').EditMask := '999.999.999-99';
   END
   ELSE if vTela = 'FORMA_PAGTO' then
   BEGIN
@@ -188,6 +235,8 @@ begin
     edtEstoque.Visible := False;
     lblVlrUnit.Visible := False;
     edtVlrUnit.Visible := False;
+    edtCPF.Visible := False;
+    lblCPF.Visible := False;
     qryCadastro.SQL.Add('Select * from FORMA_PAGTO where ID IS NULL');
   END
   else
@@ -196,11 +245,17 @@ begin
     Caption := Caption + ' Cliente';
     edtTel.Visible := True;
     lblTelefone.Visible := True;
+    edtCPF.Visible := True;
+    lblCPF.Visible := True;
     chkAtivo.Visible := False;
     lblEstoque.Visible := False;
     edtEstoque.Visible := False;
     lblVlrUnit.Visible := False;
     edtVlrUnit.Visible := False;
+    edtPDF.Visible := True;
+    btnRecupPDF.Visible := True;
+    btnBuscaPDF.Visible := True;
+
     qryCadastro.SQL.Add('Select * from CLIENTE where ID IS NULL');
   end
   else
@@ -214,6 +269,8 @@ begin
     edtEstoque.Visible := True;
     lblVlrUnit.Visible := True;
     edtVlrUnit.Visible := True;
+    edtCPF.Visible := False;
+    lblCPF.Visible := False;
     qryCadastro.SQL.Add('Select * from PRODUTO where ID IS NULL');
   end;
   qryCadastro.OpenOrExecute;
