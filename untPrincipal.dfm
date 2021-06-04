@@ -1,7 +1,7 @@
 object frmPrincipal: TfrmPrincipal
   Left = 0
   Top = 0
-  Caption = 'Sistema de Gest'#227'o Financeira'
+  Caption = 's'
   ClientHeight = 544
   ClientWidth = 950
   Color = clBtnFace
@@ -442,7 +442,6 @@ object frmPrincipal: TfrmPrincipal
         Top = 22
         Width = 81
         Height = 21
-        Date = 0.614636724538286200
         Time = 0.614636724538286200
         TabOrder = 1
       end
@@ -451,7 +450,6 @@ object frmPrincipal: TfrmPrincipal
         Top = 22
         Width = 81
         Height = 21
-        Date = 0.614636724538286200
         Time = 0.614636724538286200
         TabOrder = 2
       end
@@ -569,9 +567,9 @@ object frmPrincipal: TfrmPrincipal
     Version.Report.Minor = 0
     Version.Report.Letter = #0
     Version.Windows.Platform = 'NT'
-    Version.Windows.Major = 6
-    Version.Windows.Minor = 1
-    Version.Windows.Build = '7601'
+    Version.Windows.Major = 10
+    Version.Windows.Minor = 0
+    Version.Windows.Build = '19042'
     TempPath = 'C:\Users\Ronaldo\AppData\Local\Temp\'
     PrintDate.Day = 0
     PrintDate.Month = 0

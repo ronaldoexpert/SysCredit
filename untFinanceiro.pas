@@ -52,11 +52,11 @@ type
     btnGeraParcela: TBitBtn;
     edtParcelas: TEdit;
     btnPesqCliente: TBitBtn;
-    btnPesqCondPagto: TBitBtn;
     BitBtn1: TBitBtn;
     dtsFornecedor: TDataSource;
     qryFornecedor: TFDQuery;
     edtEmissao: TMaskEdit;
+    btnPesqCondPagto: TBitBtn;
     procedure FormShow(Sender: TObject);
     procedure edtClienteExit(Sender: TObject);
     procedure edtFormaPagtoExit(Sender: TObject);
