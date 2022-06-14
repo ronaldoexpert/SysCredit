@@ -41,7 +41,11 @@ type
     lblStatusCaixa: TLabel;
     btnPedido: TSpeedButton;
     btnProduto: TSpeedButton;
-    btnSinc: TBitBtn;
+    mmoClientes: TMemo;
+    edtCliente: TEdit;
+    lblCodCliente: TLabel;
+    qryCadastro: TFDQuery;
+    dtsCadastro: TDataSource;
     procedure FormActivate(Sender: TObject);
     procedure btnSairClick(Sender: TObject);
     procedure btnFormaPagtoClick(Sender: TObject);
@@ -54,7 +58,6 @@ type
     procedure btnImprimirClick(Sender: TObject);
     procedure btnPedidoClick(Sender: TObject);
     procedure btnProdutoClick(Sender: TObject);
-    procedure btnSincClick(Sender: TObject);
   private
     { Private declarations }
     procedure CarregaConfig;
@@ -126,11 +129,6 @@ begin
   close;
 end;
 
-procedure TfrmPrincipal.btnSincClick(Sender: TObject);
-begin
-  ShellExecute(Handle, 'open', pchar('SyncCredit.exe'), nil, nil, SW_SHOWNORMAL);
-end;
-
 procedure TfrmPrincipal.CarregaConfig;
 var
   vModuloFin, vModuloVendas : String;
@@ -191,6 +189,12 @@ begin
   if rdTipos.ItemIndex = 0 then  Crpe1.ReportName := 'Relatorio\FinEM.rpt'
   else if rdTipos.ItemIndex = 1 then Crpe1.ReportName := 'Relatorio\FinVC.rpt'
   else if rdTipos.ItemIndex = 2 then Crpe1.ReportName := 'Relatorio\FinPG.rpt';
+
+  if edtCliente.Text <> '' then
+  begin
+    Crpe1.ReportName := 'Relatorio\FinVCCli.rpt';
+    Crpe1.ParamByName('CodCliente', '').CurrentValue := edtCliente.Text;
+  end;
 
   Crpe1.ParamByName('DTINICIO', '').CurrentValue := DateToStr(edtDtInicio.Date);
   Crpe1.ParamByName('DTFIM', '').CurrentValue := DateToStr(edtDtFim.Date);
@@ -275,6 +279,17 @@ begin
   edtDtInicio.Date := StartOfTheMonth(Date);
   edtDtFim.Date := EndOfTheMonth(Date);
 
+  mmoClientes.Lines.Clear;
+  qryCadastro.Close;
+  qryCadastro.SQL.Clear;
+  qryCadastro.SQL.Add('Select * from CLIENTE WHERE SITUACAO = ' + QuotedStr('Ativo') + ' ORDER BY NOME');
+  qryCadastro.Open;
+  qryCadastro.First;
+  while NOT qryCadastro.Eof do
+  BEGIN
+    mmoClientes.Lines.Add(qryCadastro.FieldByName('id').AsString + ' - ' + qryCadastro.FieldByName('nome').AsString);
+    qryCadastro.Next;
+  END;
   Caption := vCaptionAntiga;
 end;
 

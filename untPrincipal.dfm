@@ -414,7 +414,7 @@ object frmPrincipal: TfrmPrincipal
       Left = 6
       Top = 46
       Width = 281
-      Height = 129
+      Height = 259
       Caption = 'Relat'#243'rio Financeiro'
       TabOrder = 1
       object lblAte: TLabel
@@ -423,6 +423,13 @@ object frmPrincipal: TfrmPrincipal
         Width = 17
         Height = 13
         Caption = 'At'#233
+      end
+      object lblCodCliente: TLabel
+        Left = 211
+        Top = 87
+        Width = 33
+        Height = 13
+        Caption = 'Cliente'
       end
       object rdTipos: TRadioGroup
         Left = 16
@@ -442,6 +449,7 @@ object frmPrincipal: TfrmPrincipal
         Top = 22
         Width = 81
         Height = 21
+        Date = 44726.000000000000000000
         Time = 0.614636724538286200
         TabOrder = 1
       end
@@ -450,13 +458,14 @@ object frmPrincipal: TfrmPrincipal
         Top = 22
         Width = 81
         Height = 21
+        Date = 44726.000000000000000000
         Time = 0.614636724538286200
         TabOrder = 2
       end
       object btnImprimir: TBitBtn
-        Left = 182
-        Top = 92
-        Width = 86
+        Left = 152
+        Top = 218
+        Width = 116
         Height = 29
         Caption = '&Imprimir'
         Glyph.Data = {
@@ -489,49 +498,22 @@ object frmPrincipal: TfrmPrincipal
         TabOrder = 3
         OnClick = btnImprimirClick
       end
-      object btnSinc: TBitBtn
+      object mmoClientes: TMemo
         Left = 16
-        Top = 92
-        Width = 90
-        Height = 29
-        Caption = 'Sincronizar'
-        Glyph.Data = {
-          36040000424D3604000000000000360000002800000010000000100000000100
-          20000000000000040000C40E0000C40E00000000000000000000FFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFF9F7F5FFEAE6E0FFE4DED7FFE2DDD6FFE5E0
-          DCFFEAE8E5FFF7F6F4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFF2F2F2FFCAC9C6FF7D6F5BFF523B1DFF442E11FF4838
-          23FF7E776DFFDAD9D9FFFAFAFAFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFC3AF8DFF70460CFF6F4204FF6A3F06FF613907FF5837
-          0BFF4A2F0BFF3F2C13FFBCB8B0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFC6B179FF815606FF865507FF7F4E07FF704104FF2D1804FF2519
-          0DFF25190EFF25190EFF27190AFFA8A49CFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFEADFB8FF9C7811FFA17315FF986614FF966828FFF1F0F0FFFFFFFFFFA19D
-          97FF23160BFF24170DFF24170DFF211409FFDAD9D7FFFFFFFFFFFFFEFBFFF5F3
-          E2FFC4AB34FFB8941EFFAD811AFF9A6A15FFC5B297FFF0EDE8FFFFFFFFFFFFFF
-          FFFF5B524CFF21160CFF20150CFF20150CFF5B534CFFFFFFFFFFFEFEF9FFE1D1
-          54FFD2BA3EFFC8A62EFFB68C22FF9E7119FF825511FFE1D7CAFFFFFFFFFFFFFF
-          FFFFA19C99FF1B1109FF1A1C11FF1B1008FF1A1009FFF1F1F0FFFFFFFFFFB8BB
-          B9FFBCA839FFD4BA48FFBE972EFFA4771CFFDBD1BDFFFFFFFFFFFFFFFFFFFFFF
-          FFFFBAB7B5FF161D12FF08A66FFF104D32FF120802FFDEDDDBFFFFFFFFFFB2B6
-          B5FF000403FFB49F3DFFC5A33EFF251F07FFDADCDBFFFFFFFFFFFFFFFFFFFFFF
-          FFFFB1C7BEFF26AD7EFF1CC388FF0BBA7DFF084A30FFDCDAD9FFFFFFFFFFD0D3
-          D2FF030D09FF030E0CFF2B2D0FFF04110CFFCCCFCDFFFFFFFFFFFFFFFFFFCDEA
-          E0FF25A276FF34BA8BFF3DC999FF0BC684FF08BB7CFF8BDABDFFFFFFFFFFF9FA
-          FAFF182822FF081812FF081912FF071A12FF9DA4A2FFFFFFFFFFFFFFFFFFD5EE
-          E5FF7BCFB2FF31B889FF3CC595FF0BBC7FFF32D098FFC4F4E4FFFFFFFFFFFFFF
-          FFFF8F9995FF081C14FF0A1E16FF0A1F17FF1F332CFFF9FAF9FFFFFFFFFFFBFD
-          FCFF2CAA7EFF24B080FF28B987FF0AB277FFC1F1E0FFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFF3F564DFF0A2218FF0B2319FF0C241AFF0B251AFF446156FF1884
-          5FFF129969FF19A876FF1BB37FFF79DEBBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFF57776CFF043927FF03412BFF045538FF05714BFF0A87
-          5BFF109467FF17A775FF8CDEC2FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFD5E0DCFF79A395FF3E876DFF2E8C6BFF3FA0
-          7EFF82CAB1FFDFF4EDFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFEFEFFFCFEFDFFFEFF
-          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+        Top = 87
+        Width = 189
+        Height = 125
+        Enabled = False
+        Lines.Strings = (
+          'Memo1')
         TabOrder = 4
-        OnClick = btnSincClick
+      end
+      object edtCliente: TEdit
+        Left = 211
+        Top = 106
+        Width = 57
+        Height = 21
+        TabOrder = 5
       end
     end
   end
@@ -548,13 +530,13 @@ object frmPrincipal: TfrmPrincipal
     DriverLink = FDPhysFBDriverLink1
     OnProgress = FDIBBackup1Progress
     Verbose = True
-    Left = 600
-    Top = 33
+    Left = 368
+    Top = 121
   end
   object FDPhysFBDriverLink1: TFDPhysFBDriverLink
     VendorLib = 'fbclient.dll'
-    Left = 648
-    Top = 32
+    Left = 416
+    Top = 120
   end
   object Crpe1: TCrpe
     About = 'Version and Credits...'
@@ -569,7 +551,7 @@ object frmPrincipal: TfrmPrincipal
     Version.Windows.Platform = 'NT'
     Version.Windows.Major = 10
     Version.Windows.Minor = 0
-    Version.Windows.Build = '19042'
+    Version.Windows.Build = '19044'
     TempPath = 'C:\Users\Ronaldo\AppData\Local\Temp\'
     PrintDate.Day = 0
     PrintDate.Month = 0
@@ -1126,5 +1108,17 @@ object frmPrincipal: TfrmPrincipal
     SummaryInfo.SavePreviewPicture = False
     Left = 336
     Top = 184
+  end
+  object qryCadastro: TFDQuery
+    Connection = DM_CREDIT.FDConexao
+    SQL.Strings = (
+      'select * from cliente')
+    Left = 320
+    Top = 248
+  end
+  object dtsCadastro: TDataSource
+    DataSet = qryCadastro
+    Left = 376
+    Top = 248
   end
 end

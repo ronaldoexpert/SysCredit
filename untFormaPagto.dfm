@@ -2,8 +2,8 @@ object frmCadastro: TfrmCadastro
   Left = 0
   Top = 0
   Caption = 'Cadastro de'
-  ClientHeight = 219
-  ClientWidth = 395
+  ClientHeight = 342
+  ClientWidth = 676
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,12 +20,14 @@ object frmCadastro: TfrmCadastro
   object pnlPrincipal: TPanel
     Left = 0
     Top = 0
-    Width = 395
-    Height = 219
+    Width = 676
+    Height = 342
     Align = alClient
     Color = clBtnHighlight
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 395
+    ExplicitHeight = 219
     object Label1: TLabel
       Left = 24
       Top = 13
@@ -94,14 +96,16 @@ object frmCadastro: TfrmCadastro
     end
     object pnlBotoes: TPanel
       Left = 1
-      Top = 179
-      Width = 393
+      Top = 302
+      Width = 674
       Height = 39
       Align = alBottom
       BorderStyle = bsSingle
       TabOrder = 6
+      ExplicitTop = 179
+      ExplicitWidth = 393
       object btnFechar: TSpeedButton
-        Left = 316
+        Left = 597
         Top = 1
         Width = 72
         Height = 33
